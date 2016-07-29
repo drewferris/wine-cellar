@@ -37,3 +37,12 @@ router.put('/', bodyParser, (req, res, next) => {
     res.json({message});
   });
 });
+
+router.delete('/:id', (req, res, next) => {
+  let _id = req.params.id;
+  Bottle.findOneAndRemove({_id}, (err) => {
+    if(err) return next(err);
+    let message = 'successfully deleted';
+    res.json({message});
+  });
+});
