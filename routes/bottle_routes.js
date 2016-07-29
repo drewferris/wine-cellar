@@ -14,6 +14,14 @@ router.get('/', (req, res, next) => {
   });
 });
 
+router.get('/:id', (req, res, next) => {
+  let _id = req.params.id;
+  Bottle.findOne({_id}, (err, bottle) => {
+    if(err) return next(err);
+    res.json({bottle});
+  });
+});
+
 router.post('/', bodyParser, (req, res, next) => {
   let newBottle = new Bottle(req.body);
   newBottle.save((err, data) => {
