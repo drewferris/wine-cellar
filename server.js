@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const bottleRouter = require('./routes/bottle_routes');
+const authRouter = require('./routes/auth_routes');
 
 const dbPort = process.env.MONGOLAB_URI || 'mongodb://localhost/dev_db';
 
@@ -11,6 +12,7 @@ mongoose.connect(dbPort);
 app.use(express.static(__dirname + '/build'));
 
 app.use('/bottle', bottleRouter);
+app.use('/auth', authRouter);
 
 app.use((req, res) => {
   console.log('hit end');

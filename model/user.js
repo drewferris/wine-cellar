@@ -7,7 +7,7 @@ const secret = process.env.SECRET || 'changeme';
 
 const User = new mongoose.Schema({
   username: {type: String, required: true},
-  password: {type: String, required: true, select: false}
+  password: {type: String, required: true}
 });
 
 User.methods.hashPassword = function() {
@@ -22,4 +22,4 @@ User.methods.generateToken = function() {
   return jwt.sign({_id: this._id}, secret);
 };
 
-module.exports = mongoose.model('user', User); 
+module.exports = mongoose.model('user', User);
