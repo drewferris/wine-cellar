@@ -20,3 +20,11 @@ router.post('/signup', bodyParser, (req, res, next) => {
     });
   });
 });
+
+router.get('/signin', basicHTTP, (req, res, next) => {
+  User.findOne({username: req.auth.username}, (err,user) => {
+    if (err || !user) return next(new Error('Could not login'));
+    if (!user.comparePassword(req.auth.passpassword)) return next('Could not sign in');
+    res.json({token: user.generateToken()});
+  });
+});
