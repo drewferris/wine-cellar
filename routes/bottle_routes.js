@@ -3,7 +3,7 @@
 const express = require('express');
 const Bottle = require('../model/bottle');
 const bodyParser = require('body-parser').json();
-// const jwt = require('../lib/jwt_auth');
+const jwt = require('../lib/jwt_auth');
 
 const router = module.exports = exports = express.Router();
 
@@ -22,7 +22,7 @@ router.get('/:id', (req, res, next) => {
   });
 });
 
-router.post('/', bodyParser, (req, res, next) => {
+router.post('/', bodyParser, jwt, (req, res, next) => {
   let newBottle = new Bottle(req.body);
   newBottle.save((err, data) => {
     if(err) return next(err);
@@ -30,7 +30,7 @@ router.post('/', bodyParser, (req, res, next) => {
   });
 });
 
-router.put('/', bodyParser, (req, res, next) => {
+router.put('/', bodyParser, jwt, (req, res, next) => {
   Bottle.findOneAndUpdate({_id: req.body._id}, req.body, (err) => {
     if(err) return next(err);
     let message = 'successfully updated';
@@ -38,7 +38,7 @@ router.put('/', bodyParser, (req, res, next) => {
   });
 });
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', jwt, (req, res, next) => {
   let _id = req.params.id;
   Bottle.findOneAndRemove({_id}, (err) => {
     if(err) return next(err);
