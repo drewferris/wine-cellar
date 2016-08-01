@@ -39,4 +39,17 @@ describe('unit tests for CRUD bottle routes', () => {
         done();
       });
   });
+  it('Should create a bottle', (done) => {
+    request('localhost:3000')
+    .post('/bottle')
+    .set({token: testToken})
+    .send({name: 'test bottle'})
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(res).to.have.status(200);
+      expect(res.body.name).to.eql('test bottle');
+      done();
+    });
+  });
+
 });
