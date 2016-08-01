@@ -7,6 +7,7 @@ const expect = chai.expect;
 const request = chai.request;
 const mongoose = require('mongoose');
 const dbPort = process.env.MONGOLAB_URI;
+const Bottle = require('../model/bottle');
 let testToken = '';
 
 process.env.MONGOLAB_URI = 'mongodb://localhost/test_db';
@@ -19,6 +20,7 @@ describe('unit tests for CRUD bottle routes', () => {
     .send({username: 'user', password: 'password'})
     .end((err, user) => {
       testToken = user.body.token;
+      console.log('user', user.body.currentUser);
       if (err) console.log('error message');
       done();
     });
@@ -51,5 +53,27 @@ describe('unit tests for CRUD bottle routes', () => {
       done();
     });
   });
-
+  describe('Bottle tests that need data', () => {
+    let testBottle;
+    beforeEach((done) => {
+      let newTestBottle = new Bottle({name: 'tester'});
+      newTestBottle.save((err, bottle) => {
+        testBottle = bottle;
+        done();
+      });
+    });
+    it('Should update a bottle', (done) => {
+      testBottle.name = 'updated';
+      request('localhost:3000')
+      .put('/bottle')
+      .set({token: testToken})
+      .send(testBottle)
+      .end((err, res) => {
+        expect(err).to.eql(null);
+        expect(res).to.have.status(200);
+        expect(res.body.message).to.eql('successfully updated');
+        done();
+      });
+    });
+  });
 });
