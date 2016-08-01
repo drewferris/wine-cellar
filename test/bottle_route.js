@@ -62,6 +62,16 @@ describe('unit tests for CRUD bottle routes', () => {
         done();
       });
     });
+    it('Should get a bottle', (done) => {
+      request('localhost:3000')
+      .get('/bottle/' + testBottle.id)
+      .end((err, res) => {
+        expect(err).to.eql(null);
+        expect(res).to.have.status(200);
+        expect(res.body.bottle.name).to.eql('tester');
+        done();
+      });
+    });
     it('Should update a bottle', (done) => {
       testBottle.name = 'updated';
       request('localhost:3000')
