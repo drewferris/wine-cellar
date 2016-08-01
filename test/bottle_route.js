@@ -75,5 +75,16 @@ describe('unit tests for CRUD bottle routes', () => {
         done();
       });
     });
+    it('Should delete a bottle', (done) => {
+      request('localhost:3000')
+      .delete('/bottle/' + testBottle.id)
+      .set({token: testToken})
+      .end((err, res) => {
+        expect(err).to.eql(null);
+        expect(res).to.have.status(200);
+        expect(res.body.message).to.eql('successfully deleted');
+        done();
+      });
+    });
   });
 });
