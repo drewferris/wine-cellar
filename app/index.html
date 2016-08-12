@@ -6,10 +6,8 @@
     <title></title>
   </head>
   <body ng-app="CellarApp">
-    <h1>Jello</h1>
-    <main ng-controller="BottleController as botlctrl" ng-init="botlctrl.getBottles()">
-      <bottle-list bottles="botlctrl.bottles"><bottle-list>
-    </main>
-    <script src='./bundle.js'></script>
+    <ng-view></ng-view>
+    <h1>hello</h1>
+    <script src="./bundle.js"></script>
   </body>
 </html>
